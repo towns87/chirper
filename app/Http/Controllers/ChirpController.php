@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use App\Models\Tag;
 
 class ChirpController extends Controller
 {
@@ -24,9 +25,9 @@ class ChirpController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('chirps/create');
     }
 
     /**
@@ -42,6 +43,27 @@ class ChirpController extends Controller
         $request->user()->chirps()->create($validated);
  
         return redirect(route('chirps.index'));
+
+        // logic to handle chirp tags
+
+        $request->validate([
+            'content' => 'required|max:255',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:50',
+        ]);
+
+        $chirp = $request->user()->chirps()->create([
+            'content' => $validated['content'],
+            'user_id' => auth()->id(),
+        ]);
+
+        if (!empty($validated['tags'])) {
+            $tags = collect($validated['tags'])->map(function($tag){
+                return Tag::firstOrCreate(['name' => $tag]);
+            });
+            $chirp->tags()->sync($tags->pluck('id'));
+        }
+        return redirect()->route('chirps.index');
     }
 
     /**
@@ -59,7 +81,7 @@ class ChirpController extends Controller
     {
         Gate::authorize('update' , $chirp);
 
-        return view('Chirps.edit', [
+        return view('chirps.edit', [
             'chirp' => $chirp,
         ]);
     }
@@ -91,4 +113,6 @@ class ChirpController extends Controller
 
         return redirect(route('chirps.index'));
     }
+
+    
 }
