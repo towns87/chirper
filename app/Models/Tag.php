@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     public function chirps(){
-        return this->belongsToMany(Chirp::class);
+        return $this->belongsToMany(Chirp::class);
     }
 }

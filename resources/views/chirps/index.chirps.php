@@ -9,6 +9,8 @@
             >{{ old('message') }}</textarea>
             <x-input-error :messages="$errors->get('message')" class="mt-2" />
             <x-primary-button class="mt-4">{{ __('Chirp') }}</x-primary-button>
+            <x-label for='tags'>Tags</x-label>
+            <x-input type="text" name="tags" id="tags" placeholder="Enter tags separated by commas"/>
         </form>
     </div>
 </x-app-layout>
