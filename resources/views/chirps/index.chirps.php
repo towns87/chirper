@@ -12,6 +12,7 @@
             <x-label for='tags'>Tags</x-label>
             <x-input type="text" name="tags" id="tags" placeholder="Enter tags separated by commas"/>
             <x-button type="text" name="tag-button" id="tags">Tag someone!</x-button>
+            <x-button type="text" name="review" id="review">Tell us what you think!</x-button>
         </form>
     </div>
 </x-app-layout>
