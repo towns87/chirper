@@ -11,6 +11,7 @@
             <x-primary-button class="mt-4">{{ __('Chirp') }}</x-primary-button>
             <x-label for='tags'>Tags</x-label>
             <x-input type="text" name="tags" id="tags" placeholder="Enter tags separated by commas"/>
+            <x-button type="text" name="tag-button" id="tags">Tag someone!</x-button>
         </form>
     </div>
 </x-app-layout>
