@@ -35,25 +35,21 @@ class ChirpController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        
-        $validated = $request->validate([
-            'message' => 'required|string|max:255',
-        ]);
- 
-        $request->user()->chirps()->create($validated);
- 
-        return redirect(route('chirps.index'));
+    
 
         // logic to handle chirp tags
 
-        $request->validate([
-            'content' => 'required|max:255',
+        $validated = $request->validate([
+            'message' => 'required|max:255',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
+            
         ]);
 
+        
+
         $chirp = $request->user()->chirps()->create([
-            'content' => $validated['content'],
+            'message' => $validated['message'],
             'user_id' => auth()->id(),
         ]);
 
